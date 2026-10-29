@@ -87,6 +87,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+  uint32_t previousTick = HAL_GetTick();
+  uint8_t ledIndex = 0;
+
+  HAL_GPIO_WritePin(GPIOA,
+                    GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
+                    GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 
   /* USER CODE END 2 */
 
@@ -98,22 +105,31 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    /* 先关闭三个LED */
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2, GPIO_PIN_RESET);
+    if ((uint32_t)(HAL_GetTick() - previousTick) >= 500U)
+    {
+      previousTick += 500U;
 
-    /* 点亮LED0 */
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
-    HAL_Delay(500);
+      // 先关闭全部 LED
+      HAL_GPIO_WritePin(GPIOA,
+                        GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
+                        GPIO_PIN_RESET);
 
-    /* 关闭LED0，点亮LED1 */
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
-    HAL_Delay(500);
+      // 切换到下一颗 LED
+      ledIndex = (ledIndex + 1U) % 3U;
 
-    /* 关闭LED1，点亮LED2 */
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
-    HAL_Delay(500);
+      if (ledIndex == 0U)
+      {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+      }
+      else if (ledIndex == 1U)
+      {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+      }
+      else
+      {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+      }
+    }
   }
   /* USER CODE END 3 */
 }
