@@ -90,10 +90,10 @@ int main(void)
   uint32_t previousTick = HAL_GetTick();
   uint8_t ledIndex = 0;
 
-  HAL_GPIO_WritePin(GPIOA,
-                    GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
-                    GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
 
   /* USER CODE END 2 */
 
@@ -110,24 +110,24 @@ int main(void)
       previousTick += 500U;
 
       // 先关闭全部 LED
-      HAL_GPIO_WritePin(GPIOA,
-                        GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
-                        GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
 
       // 切换到下一颗 LED
       ledIndex = (ledIndex + 1U) % 3U;
 
       if (ledIndex == 0U)
       {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
       }
       else if (ledIndex == 1U)
       {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
       }
       else
       {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
       }
     }
   }
