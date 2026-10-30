@@ -87,3 +87,10 @@ if ((uint32_t)(HAL_GetTick() - previousTick) >= 500U)
 ### 4. 实验总结
 
 通过本次加分项实验，理解了阻塞延时与非阻塞计时的区别，掌握了使用 `HAL_GetTick()` 和时间差判断实现定时任务的方法，为后续多任务嵌入式程序设计打下了基础。
+
+## 七、实验验证材料
+
+- [编译成功截图](build_success.png)
+- [烧录成功截图](flash_success.jpg)
+- [基础版流水灯视频](LED_Flow_Basic.mp4)
+- [非阻塞流水灯视频](LED_Flow_Bonus.mp4)
