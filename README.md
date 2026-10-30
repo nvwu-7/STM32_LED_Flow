@@ -42,10 +42,10 @@
 uint32_t previousTick = HAL_GetTick();
 uint8_t ledIndex = 0;
 
-HAL_GPIO_WritePin(GPIOA,
-                  GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
-                  GPIO_PIN_RESET);
-HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
 ```
 
 在 `while(1)` 循环中使用以下非阻塞控制逻辑：
@@ -55,23 +55,23 @@ if ((uint32_t)(HAL_GetTick() - previousTick) >= 500U)
 {
     previousTick += 500U;
 
-    HAL_GPIO_WritePin(GPIOA,
-                      GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2,
-                      GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
 
     ledIndex = (ledIndex + 1U) % 3U;
 
     if (ledIndex == 0U)
     {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
     }
     else if (ledIndex == 1U)
     {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
     }
     else
     {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
     }
 }
 ```
@@ -87,28 +87,3 @@ if ((uint32_t)(HAL_GetTick() - previousTick) >= 500U)
 ### 4. 实验总结
 
 通过本次加分项实验，理解了阻塞延时与非阻塞计时的区别，掌握了使用 `HAL_GetTick()` 和时间差判断实现定时任务的方法，为后续多任务嵌入式程序设计打下了基础。
-
-
-## 七、实验演示视频
-
-### 1. 基础项：三色 LED 流水灯
-
-**演示视频：** [LED_Flow_Basic.mp4](LED_Flow_Basic.mp4)
-
-使用 `HAL_Delay(500)` 实现阻塞式延时，控制红色、黄色、绿色 LED 按顺序循环点亮，每隔约 500ms 切换一次。
-
-### 2. 加分项：非阻塞流水灯
-
-**演示视频：** [LED_Flow_Bonus.mp4](LED_Flow_Bonus.mp4)
-
-使用 `HAL_GetTick()` 获取系统运行时间，通过比较时间差实现非阻塞定时控制。
-
-三颗 LED 按照红灯 → 黄灯 → 绿灯的顺序循环点亮，切换间隔约为 500ms。
-
-与基础项相比，加分项不再使用 `HAL_Delay()` 进行阻塞等待，主循环可以继续执行其他任务。
-
-### 3. 实验验证
-
-两个版本均已通过 CLion 编译，并使用 ST-LINK V2 和 STM32CubeProgrammer 完成烧录。
-
-通过实际开发板测试，三颗 LED 均能按照预定顺序循环点亮，实验现象符合预期。
