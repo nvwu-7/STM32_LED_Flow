@@ -32,6 +32,9 @@ message("Build type: " ${CMAKE_BUILD_TYPE})
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)
 
+# STM32F103 Cortex-M3 compile options
+add_compile_options(-mcpu=cortex-m3 -mthumb)
+
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
